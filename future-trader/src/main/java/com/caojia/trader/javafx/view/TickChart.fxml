@@ -10,6 +10,6 @@
     <CategoryAxis fx:id="categoryAxis" side="BOTTOM" tickLabelsVisible="false" />
   </xAxis>
   <yAxis>
-    <NumberAxis fx:id="numberAxis" side="RIGHT" />
+    <NumberAxis fx:id="numberAxis" autoRanging="false" side="RIGHT" />
   </yAxis>
 </LineChart>

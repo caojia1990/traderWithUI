@@ -31,6 +31,7 @@ public class TickController implements Initializable{
 	
 	
 	public void initialize(URL location, ResourceBundle resources) {
+	    
 		
 		String stockLineChartCss = getClass().getResource("/com/caojia/trader/javafx/view/TickChart.css").toExternalForm();
 		
@@ -41,12 +42,13 @@ public class TickController implements Initializable{
 		lineChart.getData().add(series);
 		
 		
-		
 	}
 	
 	public void addData(String category, Number number) {
 		
-		
+	    numberAxis.setLowerBound(55400);
+        numberAxis.setUpperBound(55500);
+        numberAxis.setTickUnit(10); 
 		series.getData().add(new Data<String, Number>(category, number));
 		if(series.getData().size() > 60) {
 			series.getData().remove(0);

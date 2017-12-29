@@ -15,6 +15,13 @@
   </properties>
 
   <dependencies>
+  
+    <dependency>
+        <artifactId>log4j</artifactId>
+        <groupId>log4j</groupId>
+        <version>1.2.16</version>
+    </dependency>
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
