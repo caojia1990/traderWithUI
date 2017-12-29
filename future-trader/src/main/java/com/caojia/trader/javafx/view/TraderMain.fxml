@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="999.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.caojia.trader.javafx.controller.TraderMainController">
+   <top>
+      <MenuBar prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.16129032258064516, 0.4060721062618596, 0.8842504743833017" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+         <items>
+            <BorderPane prefHeight="82.0" prefWidth="864.0" />
+            <AnchorPane prefHeight="0.0" prefWidth="997.0">
+               <children>
+                  <ComboBox fx:id="instrumentComb" editable="true" onKeyReleased="#searchInstrument" prefWidth="150.0" visible="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TableView fx:id="marketTable" onKeyPressed="#choseInstrument" prefHeight="126.0" prefWidth="994.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="合约" />
+                      <TableColumn prefWidth="75.0" text="最新价" />
+                        <TableColumn prefWidth="75.0" text="买一价" />
+                        <TableColumn prefWidth="75.0" text="买一量" />
+                        <TableColumn prefWidth="75.0" text="卖一价" />
+                        <TableColumn prefWidth="75.0" text="卖一量" />
+                        <TableColumn prefWidth="75.0" text="最高价" />
+                        <TableColumn prefWidth="75.0" text="最低价" />
+                        <TableColumn prefWidth="75.0" text="涨停价" />
+                        <TableColumn prefWidth="75.0" text="跌停价" />
+                        <TableColumn prefWidth="75.0" text="昨收盘" />
+                        <TableColumn prefWidth="75.0" text="收盘价" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <BorderPane prefHeight="169.0" prefWidth="864.0">
+               <center>
+                  <SplitPane dividerPositions="0.22914572864321608, 0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <items>
+                        <AnchorPane prefHeight="229.0" prefWidth="277.0">
+                           <children>
+                              <Label layoutX="30.0" layoutY="18.0" prefHeight="41.0" prefWidth="76.0" text="买持限制">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="29.0" layoutY="67.0" prefHeight="39.0" prefWidth="76.0" text="卖持限制">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="111.0" layoutY="26.0" prefHeight="27.0" prefWidth="95.0" promptText="手">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </TextField>
+                              <TextField layoutX="110.0" layoutY="74.0" prefHeight="27.0" prefWidth="96.0" />
+                              <Label layoutX="29.0" layoutY="113.0" prefHeight="39.0" prefWidth="76.0" text="开仓手数">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField layoutX="110.0" layoutY="119.0" prefHeight="27.0" prefWidth="96.0" />
+                           </children>
+                        </AnchorPane>
+                        <BorderPane fx:id="chartArea" prefHeight="229.0" prefWidth="545.0" />
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="45.0" prefWidth="864.0" />
+         </items>
+      </SplitPane>
+   </center>
+</BorderPane>

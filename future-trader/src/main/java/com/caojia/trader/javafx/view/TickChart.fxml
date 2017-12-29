@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.GridPane?>
+
+<LineChart fx:id="lineChart" animated="false" createSymbols="false" legendVisible="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.caojia.trader.javafx.controller.TickController">
+  <xAxis>
+    <CategoryAxis fx:id="categoryAxis" side="BOTTOM" tickLabelsVisible="false" />
+  </xAxis>
+  <yAxis>
+    <NumberAxis fx:id="numberAxis" side="RIGHT" />
+  </yAxis>
+</LineChart>
