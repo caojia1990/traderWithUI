@@ -3,6 +3,12 @@ package com.caojia.trader.javafx.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcDepthMarketDataField;
+
+import com.bohai.finance.model.Bank;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -20,15 +26,21 @@ public class TraderMainController implements Initializable{
 	private ComboBox<String> instrumentComb;
 	
 	@FXML
-	private TableView<String> marketTable;
+	private TableView<CThostFtdcDepthMarketDataField> marketTable;
 	
 	@FXML
 	private ListView<String> priceList;
+	
+	private ObservableList<CThostFtdcDepthMarketDataField> marketList;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		instrumentComb.toFront();
+		
+		marketList = FXCollections.observableArrayList();
+		
+		marketTable.setItems(marketList);
 	}
 
 	public BorderPane getChartArea() {
@@ -74,7 +86,6 @@ public class TraderMainController implements Initializable{
 	public void searchInstrument(KeyEvent event) {
 		
 		System.out.println(instrumentComb.getValue());
-		System.out.println(instrumentComb.getAccessibleText());
 		switch (event.getCode()) {
 		case ENTER:
 			instrumentComb.toBack();

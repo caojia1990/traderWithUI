@@ -3,3 +3,6 @@
 /.settings/
 /.project
 /.DS_Store
+/DialogRsp.con
+/QueryRsp.con
+/TradingDay.con

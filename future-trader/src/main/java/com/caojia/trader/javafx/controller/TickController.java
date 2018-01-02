@@ -30,6 +30,11 @@ public class TickController implements Initializable{
 	private Series<String, Number> series;
 	
 	
+	private double min = 0;;
+	
+	private double max = 0;;
+	
+	
 	public void initialize(URL location, ResourceBundle resources) {
 	    
 		
@@ -46,8 +51,16 @@ public class TickController implements Initializable{
 	
 	public void addData(String category, Number number) {
 		
-	    numberAxis.setLowerBound(55400);
-        numberAxis.setUpperBound(55500);
+	    if(number.doubleValue() > max){
+	        max = number.doubleValue();
+	        min = number.doubleValue() - 50;
+	    }
+	    if(number.doubleValue() < min){
+	        min = number.doubleValue();
+	    }
+	    
+	    numberAxis.setLowerBound(min);
+        numberAxis.setUpperBound(max);
         numberAxis.setTickUnit(10); 
 		series.getData().add(new Data<String, Number>(category, number));
 		if(series.getData().size() > 60) {
