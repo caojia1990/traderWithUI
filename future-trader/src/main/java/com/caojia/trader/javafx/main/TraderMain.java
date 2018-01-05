@@ -38,7 +38,7 @@ public class TraderMain extends Application {
     //行情地址
     public static String marketFront = "tcp://180.168.146.187:10010";
     /** 行情API **/
-    static JCTPMdApi mdApi;
+    public static JCTPMdApi mdApi;
     static JCTPMdSpi mdSpi;
     
     //交易地址 
