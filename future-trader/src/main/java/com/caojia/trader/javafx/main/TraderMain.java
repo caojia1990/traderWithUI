@@ -49,12 +49,13 @@ public class TraderMain extends Application {
     Map<String , FutureChange> changeMap = new HashMap<String , FutureChange>();
     
     private TickController tickController;
+    private TraderMainController mainController;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/caojia/trader/javafx/view/TraderMain.fxml"));
 		Parent root = fxmlLoader.load();
-		TraderMainController mainController = fxmlLoader.getController();
+		mainController = fxmlLoader.getController();
 		
         primaryStage.setTitle("程序化");
         primaryStage.setScene(new Scene(root));
@@ -153,6 +154,7 @@ public class TraderMain extends Application {
             public void run() {
                 //更新JavaFX的主线程的代码放在此处
                     tickController.addData(pDepthMarketData.getUpdateTime()+pDepthMarketData.getUpdateMillisec(), pDepthMarketData.getLastPrice());
+                    mainController.market(market);
             }
         });
         //marketService.saveFutureMarket(pDepthMarketData,volumeChange,(int)openInterestChange);

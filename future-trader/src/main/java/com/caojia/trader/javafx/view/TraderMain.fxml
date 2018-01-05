@@ -39,8 +39,8 @@
                   <ComboBox fx:id="instrumentComb" editable="true" onKeyReleased="#searchInstrument" prefWidth="150.0" visible="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <TableView fx:id="marketTable" onKeyPressed="#choseInstrument" prefHeight="126.0" prefWidth="994.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="合约" />
-                      <TableColumn prefWidth="75.0" text="最新价" />
+                      <TableColumn fx:id="instrumentIDCol" prefWidth="75.0" text="合约" />
+                      <TableColumn fx:id="lastPriceCol" prefWidth="75.0" text="最新价" />
                         <TableColumn prefWidth="75.0" text="买一价" />
                         <TableColumn prefWidth="75.0" text="买一量" />
                         <TableColumn prefWidth="75.0" text="卖一价" />
