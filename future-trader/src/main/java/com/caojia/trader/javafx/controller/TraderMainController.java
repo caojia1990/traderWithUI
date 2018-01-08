@@ -3,9 +3,8 @@ package com.caojia.trader.javafx.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcDepthMarketDataField;
-
-import com.bohai.finance.model.Bank;
+import com.caojia.trader.bean.FuturesMarket;
+import com.caojia.trader.javafx.main.TraderMain;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
@@ -26,17 +28,29 @@ public class TraderMainController implements Initializable{
 	private ComboBox<String> instrumentComb;
 	
 	@FXML
-	private TableView<CThostFtdcDepthMarketDataField> marketTable;
+	private TableView<FuturesMarket> marketTable;
 	
 	@FXML
 	private ListView<String> priceList;
 	
-	private ObservableList<CThostFtdcDepthMarketDataField> marketList;
+	private ObservableList<FuturesMarket> marketList;
+	
+	@FXML
+	private TableColumn<FuturesMarket, String> instrumentIDCol;
+	
+	@FXML
+	private TableColumn<FuturesMarket, Double> lastPriceCol;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		instrumentComb.toFront();
+		
+		instrumentIDCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, String>("instrumentID"));
+		instrumentIDCol.setCellFactory(TextFieldTableCell.forTableColumn());
+		
+		lastPriceCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, Double>("lastPrice"));
+		//lastPriceCol.setCellFactory(TextFieldTableCell.forTableColumn());
 		
 		marketList = FXCollections.observableArrayList();
 		
@@ -90,6 +104,8 @@ public class TraderMainController implements Initializable{
 		case ENTER:
 			instrumentComb.toBack();
 			marketTable.requestFocus();
+			
+			TraderMain.mdApi.subscribeMarketData(instrumentComb.getValue());
 			break;
 		case ESCAPE:
 			instrumentComb.toBack();
@@ -100,6 +116,24 @@ public class TraderMainController implements Initializable{
 			
 			break;
 		}
+	}
+	
+	public void market(FuturesMarket market){
+	    if(marketList.size() < 1){
+	        marketList.add(market);
+	    }else {
+            marketList.set(0, market);
+        }
+	}
+	
+	public void addColumns(){
+	    
+	    TableColumn<FuturesMarket, String> instrumentIDCol = new TableColumn<>("合约");
+	    instrumentIDCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, String>("instrumentID"));
+        instrumentIDCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        
+        TableColumn<FuturesMarket, Double> lastPriceCol = new TableColumn<>("最新价");
+        lastPriceCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, Double>("lastPrice"));
 	}
 
 }

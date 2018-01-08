@@ -29,7 +29,6 @@ public class TickController implements Initializable{
 //	private ObservableList<Data<String, Number>> list;
 	private Series<String, Number> series;
 	
-	
 	private double min = 0;;
 	
 	private double max = 0;;
