@@ -1,8 +1,6 @@
 package com.caojia.trader.ctp;
 
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcInputOrderActionField;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcInputOrderField;
@@ -12,7 +10,6 @@ import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcInstrumentMarginR
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcInvestorPositionDetailField;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcInvestorPositionField;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcOrderField;
-import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcQryInstrumentCommissionRateField;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcQryInstrumentField;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcQryInvestorPositionDetailField;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcReqUserLoginField;
@@ -24,12 +21,13 @@ import org.hraink.futures.jctp.trader.JCTPTraderApi;
 import org.hraink.futures.jctp.trader.JCTPTraderSpi;
 
 import com.alibaba.fastjson.JSON;
-import com.caojia.future.trader.bean.InstrumentInfo;
-import com.caojia.future.trader.bean.Position;
-import com.caojia.future.trader.dao.CommonRedisDao;
-import com.caojia.future.trader.dao.InstrumentInfoRedisDaoImpl;
-import com.caojia.future.trader.util.SpringContextUtil;
+import com.caojia.trader.bean.InstrumentInfo;
+import com.caojia.trader.dao.CommonRedisDao;
+import com.caojia.trader.dao.InstrumentInfoRedisDaoImpl;
 import com.caojia.trader.javafx.main.TraderMain;
+import com.caojia.trader.util.SpringContextUtil;
+
+import javafx.application.Application;
 
 /**
  * Custom TraderSpi
@@ -88,16 +86,16 @@ public class MyTraderSpi extends JCTPTraderSpi {
 		
 		//查询持仓明细
 		CThostFtdcQryInvestorPositionDetailField positionField = new CThostFtdcQryInvestorPositionDetailField();
-		positionField.setBrokerID(Application.BROKER_ID);
+		positionField.setBrokerID(TraderMain.BROKER_ID);
 		positionField.setInstrumentID("cu1703");
-		positionField.setInvestorID(Application.USER_ID);
+		positionField.setInvestorID(TraderMain.USER_ID);
 		//traderApi.reqQryInvestorPositionDetail(positionField, ++nRequestID);
 		
 		
 		//确认结算单
 		CThostFtdcSettlementInfoConfirmField confirmField = new CThostFtdcSettlementInfoConfirmField();
-		confirmField.setBrokerID(Application.BROKER_ID);
-		confirmField.setInvestorID(Application.USER_ID);
+		confirmField.setBrokerID(TraderMain.BROKER_ID);
+		confirmField.setInvestorID(TraderMain.USER_ID);
 		traderApi.reqSettlementInfoConfirm(confirmField, ++nRequestID);
 		
 		//查询合约信息
@@ -107,15 +105,15 @@ public class MyTraderSpi extends JCTPTraderSpi {
 		
 		//从redis中查询持仓信息
 		CommonRedisDao commonRedisDao = (CommonRedisDao) SpringContextUtil.getBean("commonRedisDao");
-		commonRedisDao.setValueByKey(Application.BUY+"cu1801", "0");
-		commonRedisDao.setValueByKey(Application.SELL+"cu1801", "0");
+		commonRedisDao.setValueByKey(TraderMain.BUY+"cu1801", "0");
+		commonRedisDao.setValueByKey(TraderMain.SELL+"cu1801", "0");
 	}
 	
 	//报单回报
 	@Override
 	public void onRtnOrder(CThostFtdcOrderField pOrder) {
 		System.out.println(pOrder.getStatusMsg());
-		application.onRtnOrder(pOrder);
+		traderMain.onRtnOrder(pOrder);
 		
 	}
 	
@@ -139,7 +137,7 @@ public class MyTraderSpi extends JCTPTraderSpi {
 	@Override
 	public void onRtnTrade(CThostFtdcTradeField pTrade) {
 		//System.out.println("成交"+pTrade.getInstrumentID());
-		application.onRtnTrade(pTrade);
+	    traderMain.onRtnTrade(pTrade);
 		
 	}
 	
