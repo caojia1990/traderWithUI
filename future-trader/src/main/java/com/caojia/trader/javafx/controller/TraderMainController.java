@@ -119,7 +119,9 @@ public class TraderMainController implements Initializable{
 	    
         for(int i =0; i< marketList.size() ; i++){
             if(marketList.get(i).getInstrumentID().equals(market.getInstrumentID())){
+                
                 marketList.set(i, market);
+                
             }
         }
 	}

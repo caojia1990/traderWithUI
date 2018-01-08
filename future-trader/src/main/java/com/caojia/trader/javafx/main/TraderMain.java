@@ -229,11 +229,11 @@ public class TraderMain extends Application {
         
     }
     
-/*    public static class TradeThread implements Runnable {
-        private Application application;
+    public static class TradeThread implements Runnable {
+        private TraderMain traderMain;
         
-        public TradeThread(Application application){
-            this.application = application;
+        public TradeThread(TraderMain traderMain){
+            this.traderMain = traderMain;
         }
         
 
@@ -243,7 +243,7 @@ public class TraderMain extends Application {
 //          traderApi = JCTPTraderApi.createFtdcTraderApi();
             traderApi = JCTPTraderApi.createFtdcTraderApi(dataPath);
 
-            traderSpi = new MyTraderSpi(traderApi,application);
+            traderSpi = new MyTraderSpi(traderApi,traderMain);
             
             //注册traderpi
             traderApi.registerSpi(traderSpi);
@@ -261,5 +261,5 @@ public class TraderMain extends Application {
             
         }
         
-    }*/
+    }
 }

@@ -69,8 +69,14 @@ public class FuturesMarket {
      */
     private Double lowestPrice;
     
+    /**
+     * 涨停价
+     */
     private Double upperLimitPrice;
     
+    /**
+     * 跌停价
+     */
     private Double lowerLimitPrice;
     
     /**
@@ -284,8 +290,10 @@ public class FuturesMarket {
     }
 
     public Double getAveragePrice() {
-        
-        return new BigDecimal(averagePrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        if(averagePrice != null){
+            return new BigDecimal(averagePrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        }
+        return averagePrice;
     }
 
     public void setAveragePrice(Double averagePrice) {

@@ -119,7 +119,7 @@ public class MyMdSpi extends JCTPMdSpi {
 	@Override
 	public void onRspError(CThostFtdcRspInfoField pRspInfo, int nRequestID,
 			boolean bIsLast) {
-		// TODO Auto-generated method stub
+		System.out.println("异常ID："+pRspInfo.getErrorID()+" 异常信息:"+pRspInfo.getErrorMsg());
 	}
 	
 	@Override
