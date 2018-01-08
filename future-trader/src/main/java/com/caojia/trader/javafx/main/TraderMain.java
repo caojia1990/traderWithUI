@@ -38,7 +38,6 @@ import com.caojia.trader.ctp.MyTraderSpi;
 import com.caojia.trader.dao.CommonRedisDao;
 import com.caojia.trader.javafx.controller.TickController;
 import com.caojia.trader.javafx.controller.TraderMainController;
-import com.caojia.trader.service.FutureMarketService;
 import com.caojia.trader.util.SpringContextUtil;
 
 import javafx.application.Application;
@@ -74,7 +73,7 @@ public class TraderMain extends Application {
     static JCTPTraderSpi traderSpi;
     Map<String , FutureChange> changeMap = new HashMap<String , FutureChange>();
     
-    private static FutureMarketService marketService;
+    //private static FutureMarketService marketService;
     private static CommonRedisDao commonRedisDao;
     
     private TickController tickController;
@@ -83,6 +82,11 @@ public class TraderMain extends Application {
     AtomicInteger request = new AtomicInteger(0);
     //行情队列
     private static BlockingQueue<FuturesMarket> marketQueue;
+    
+    /**
+     * 止盈条数
+     */
+    private int targetTick = 1;
 
 	@Override
 	public void start(Stage primaryStage) throws IOException {
@@ -100,6 +104,14 @@ public class TraderMain extends Application {
 		Node chart = tickChartfxmlLoader.load();
 		mainController.getChartArea().setCenter(chart);
 		tickController = tickChartfxmlLoader.getController();
+		
+		
+		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        classPathXmlApplicationContext.start();
+        //行情service
+        //marketService = (FutureMarketService) SpringContextUtil.getBean("futureMarketService");
+        commonRedisDao = (CommonRedisDao) SpringContextUtil.getBean("commonRedisDao");
+        
 		
 		/**
 		 * 行情线程
@@ -122,16 +134,10 @@ public class TraderMain extends Application {
         Thread strategy = new Thread(new FollowLargeNoCut(this));
         strategy.setDaemon(true);
         strategy.start();
-		
+        
 	}
 
 	public static void main(String[] args) {
-	    
-	    ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        classPathXmlApplicationContext.start();
-      //行情service
-        marketService = (FutureMarketService) SpringContextUtil.getBean("futureMarketService");
-        commonRedisDao = (CommonRedisDao) SpringContextUtil.getBean("commonRedisDao");
 	    
 		launch(args);
 	}
@@ -450,5 +456,15 @@ public class TraderMain extends Application {
     public BlockingQueue<FuturesMarket> getMarketQueue() {
         return marketQueue;
     }
+
+    public int getTargetTick() {
+        return targetTick;
+    }
+
+    public void setTargetTick(int targetTick) {
+        this.targetTick = targetTick;
+    }
+    
+    
 
 }

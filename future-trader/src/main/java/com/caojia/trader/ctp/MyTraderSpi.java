@@ -100,13 +100,13 @@ public class MyTraderSpi extends JCTPTraderSpi {
 		
 		//查询合约信息
 		CThostFtdcQryInstrumentField pQryInstrument = new CThostFtdcQryInstrumentField();
-		//traderApi.reqQryInstrument(pQryInstrument, ++nRequestID);
+		traderApi.reqQryInstrument(pQryInstrument, ++nRequestID);
 		
 		
 		//从redis中查询持仓信息
 		CommonRedisDao commonRedisDao = (CommonRedisDao) SpringContextUtil.getBean("commonRedisDao");
-		commonRedisDao.setValueByKey(TraderMain.BUY+"cu1801", "0");
-		commonRedisDao.setValueByKey(TraderMain.SELL+"cu1801", "0");
+		commonRedisDao.setValueByKey(TraderMain.BUY+"cu1803", "0");
+		commonRedisDao.setValueByKey(TraderMain.SELL+"cu1803", "0");
 	}
 	
 	//报单回报
