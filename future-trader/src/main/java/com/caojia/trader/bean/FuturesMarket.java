@@ -156,6 +156,9 @@ public class FuturesMarket {
     }
 
     public Double getBidPrice1() {
+        if (bidPrice1 != null && bidPrice1 == Double.MAX_VALUE) {
+            bidPrice1 = null;
+        }
         return bidPrice1;
     }
 
@@ -172,6 +175,9 @@ public class FuturesMarket {
     }
 
     public Double getAskPrice1() {
+        if (askPrice1 != null && askPrice1 == Double.MAX_VALUE) {
+            askPrice1 = null;
+        }
         return askPrice1;
     }
 
@@ -220,6 +226,9 @@ public class FuturesMarket {
     }
 
     public Double getHighestPrice() {
+        if (highestPrice != null && highestPrice == Double.MAX_VALUE) {
+            highestPrice = null;
+        }
         return highestPrice;
     }
 
@@ -228,6 +237,9 @@ public class FuturesMarket {
     }
 
     public Double getLowestPrice() {
+        if (lowestPrice != null && lowestPrice == Double.MAX_VALUE) {
+            lowestPrice = null;
+        }
         return lowestPrice;
     }
 
