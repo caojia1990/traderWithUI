@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.hraink.futures.ctp.thostftdcuserapidatatype.ThostFtdcUserApiDataTypeLibrary.THOST_TE_RESUME_TYPE;
 import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcDepthMarketDataField;
+import org.hraink.futures.ctp.thostftdcuserapistruct.CThostFtdcSpecificInstrumentField;
 import org.hraink.futures.jctp.md.JCTPMdApi;
 import org.hraink.futures.jctp.md.JCTPMdSpi;
 import org.hraink.futures.jctp.trader.JCTPTraderApi;
@@ -117,7 +118,10 @@ public class TraderMain extends Application {
 	
 	
 	
-	
+	/**
+	 * 深度行情回报
+	 * @param pDepthMarketData
+	 */
 	public void onRtnDepthMarketData(CThostFtdcDepthMarketDataField pDepthMarketData){
         
         int volumeChange = 0;
@@ -134,7 +138,6 @@ public class TraderMain extends Application {
         }
         
         FuturesMarket market = new FuturesMarket();
-        
         market.setAskPrice1(pDepthMarketData.getAskPrice1());
         market.setAskVolume1(pDepthMarketData.getAskVolume1());
         market.setBidPrice1(pDepthMarketData.getBidPrice1());
@@ -148,6 +151,15 @@ public class TraderMain extends Application {
         market.setTradeDate(pDepthMarketData.getTradingDay());
         market.setUpdateTime(pDepthMarketData.getUpdateTime());
         market.setUpdateMillisec(pDepthMarketData.getUpdateMillisec());
+        market.setAveragePrice(pDepthMarketData.getAveragePrice());
+        market.setHighestPrice(pDepthMarketData.getHighestPrice());
+        market.setLowestPrice(pDepthMarketData.getLowestPrice());
+        market.setUpperLimitPrice(pDepthMarketData.getUpperLimitPrice());
+        market.setLowerLimitPrice(pDepthMarketData.getLowerLimitPrice());
+        market.setPreClosePrice(pDepthMarketData.getPreClosePrice());
+        market.setPreSettlementPrice(pDepthMarketData.getPreSettlementPrice());
+        market.setClosePrice(pDepthMarketData.getClosePrice());
+        market.setSettlementPrice(pDepthMarketData.getSettlementPrice());
         
         Platform.runLater(new Runnable() {
             @Override
@@ -159,6 +171,23 @@ public class TraderMain extends Application {
         });
         //marketService.saveFutureMarket(pDepthMarketData,volumeChange,(int)openInterestChange);
     }
+	
+	
+	/**
+	 * 订阅回报
+	 * @param pSpecificInstrument
+	 */
+	public void onRspSubMarketData(CThostFtdcSpecificInstrumentField pSpecificInstrument){
+	    mainController.subMarketData(pSpecificInstrument.getInstrumentID());
+	}
+	
+	/**
+	 * 取消订阅回报
+	 * @param pSpecificInstrument
+	 */
+	public void onRspUnSubMarketData(CThostFtdcSpecificInstrumentField pSpecificInstrument){
+	    mainController.unSubMarketData(pSpecificInstrument.getInstrumentID());
+	}
 	
     public FutureChange getChange(String instrument){
         

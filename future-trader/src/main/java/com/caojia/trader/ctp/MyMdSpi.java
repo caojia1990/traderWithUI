@@ -105,6 +105,7 @@ public class MyMdSpi extends JCTPMdSpi {
 		
 		System.out.println("订阅回报:" + bIsLast +" : "+ pRspInfo.getErrorID()+":"+pRspInfo.getErrorMsg());
 		System.out.println("InstrumentID:" + pSpecificInstrument.getInstrumentID());
+		traderMain.onRspSubMarketData(pSpecificInstrument);
 	}
 	
 	@Override
@@ -125,7 +126,9 @@ public class MyMdSpi extends JCTPMdSpi {
 	public void onRspUnSubMarketData(
 			CThostFtdcSpecificInstrumentField pSpecificInstrument,
 			CThostFtdcRspInfoField pRspInfo, int nRequestID, boolean bIsLast) {
-		// TODO Auto-generated method stub
+	    System.out.println("取消订阅回报:" + bIsLast +" : "+ pRspInfo.getErrorID()+":"+pRspInfo.getErrorMsg());
+        System.out.println("InstrumentID:" + pSpecificInstrument.getInstrumentID());
+	    traderMain.onRspUnSubMarketData(pSpecificInstrument);
 	}
 	
 	@Override
