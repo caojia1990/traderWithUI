@@ -198,7 +198,7 @@ public class TraderMain extends Application {
             @Override
             public void run() {
                 //更新JavaFX的主线程的代码放在此处
-                    tickController.addData(pDepthMarketData.getUpdateTime()+pDepthMarketData.getUpdateMillisec(), pDepthMarketData.getLastPrice());
+                    //tickController.addData(pDepthMarketData.getUpdateTime()+pDepthMarketData.getUpdateMillisec(), pDepthMarketData.getLastPrice());
                     mainController.market(market);
             }
         });
