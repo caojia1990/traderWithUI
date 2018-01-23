@@ -3,6 +3,8 @@ package com.caojia.trader.javafx.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.caojia.trader.bean.FuturesMarket;
 import com.caojia.trader.javafx.main.TraderMain;
 
@@ -10,113 +12,145 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
 public class TraderMainController implements Initializable{
-	
-	@FXML
-	private BorderPane chartArea;
-	
-	@FXML
-	private ComboBox<String> instrumentComb;
-	
-	@FXML
-	private TableView<FuturesMarket> marketTable;
-	
-	@FXML
-	private ListView<String> priceList;
-	
-	private ObservableList<FuturesMarket> marketList;
+    
+    @FXML
+    private BorderPane chartArea;
+    
+    @FXML
+    private ComboBox<String> instrumentComb;
+    
+    @FXML
+    private TableView<FuturesMarket> marketTable;
+    
+    @FXML
+    private ListView<String> priceList;
+    
+    @FXML
+    private TextField instrumentText;
+    
+    @FXML
+    private Button shortPlusOneBtn;
+    
+    @FXML
+    private Button shortMinusOneBtn;
+    
+    @FXML
+    private Button longPlusOneBtn;
+    
+    @FXML
+    private Button longMinusOneBtn;
+    
+    private ObservableList<FuturesMarket> marketList;
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		instrumentComb.toFront();
-		
-		this.addColumns();
-		marketList = FXCollections.observableArrayList();
-		
-		marketTable.setItems(marketList);
-	}
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        instrumentComb.toFront();
+        
+        this.addColumns();
+        marketList = FXCollections.observableArrayList();
+        marketTable.setItems(marketList);
+    }
 
-	public BorderPane getChartArea() {
-		return chartArea;
-	}
+    public BorderPane getChartArea() {
+        return chartArea;
+    }
 
-	public void setChartArea(BorderPane chartArea) {
-		this.chartArea = chartArea;
-	}
-	
-	@FXML
-	public void choseInstrument(KeyEvent event) {
-		
-		System.out.println(event.getText());
-		
-		switch (event.getCode()) {
-		case ENTER:
-		
-			break;
-		case ESCAPE:
-		
-			break;
-		case DELETE:
-			
-		    FuturesMarket futuresMarket = marketTable.getSelectionModel().getSelectedItem();
-		    if(futuresMarket != null){
-		        TraderMain.mdApi.unSubscribeMarketData(futuresMarket.getInstrumentID());
-		    }
-			break;
-		default:
-			
-			if(!instrumentComb.isVisible()) {
-				
-				instrumentComb.setValue(null);
-				instrumentComb.setVisible(true);
-				
-			}
-			instrumentComb.setValue(null);
-			instrumentComb.toFront();
-			instrumentComb.requestFocus();
-			break;
-		}
-		
-	}
-	
-	@FXML
-	public void searchInstrument(KeyEvent event) {
-		
-		System.out.println(instrumentComb.getValue());
-		switch (event.getCode()) {
-		case ENTER:
-			instrumentComb.toBack();
-			marketTable.requestFocus();
-			
-			TraderMain.mdApi.subscribeMarketData(instrumentComb.getValue());
-			break;
-		case ESCAPE:
-			instrumentComb.toBack();
-			//instrumentComb.setVisible(false);
-			marketTable.requestFocus();
-			break;
-		default:
-			
-			break;
-		}
-	}
-	
-	/**
-	 * 更新行情
-	 * @param market
-	 */
-	public void market(FuturesMarket market){
-	    
+    public void setChartArea(BorderPane chartArea) {
+        this.chartArea = chartArea;
+    }
+    
+    @FXML
+    public void choseInstrument(KeyEvent event) {
+        
+        System.out.println(event.getText());
+        
+        switch (event.getCode()) {
+        case ENTER:
+        
+            break;
+        case ESCAPE:
+        
+            break;
+        case DELETE:
+            
+            FuturesMarket futuresMarket = marketTable.getSelectionModel().getSelectedItem();
+            if(futuresMarket != null){
+                TraderMain.mdApi.unSubscribeMarketData(futuresMarket.getInstrumentID());
+            }
+            break;
+        default:
+            
+            if(!instrumentComb.isVisible()) {
+                
+                instrumentComb.setValue(null);
+                instrumentComb.setVisible(true);
+                
+            }
+            instrumentComb.setValue(null);
+            instrumentComb.toFront();
+            instrumentComb.requestFocus();
+            break;
+        }
+        
+    }
+    
+    @FXML
+    public void searchInstrument(KeyEvent event) {
+        
+        System.out.println(instrumentComb.getValue());
+        switch (event.getCode()) {
+        case ENTER:
+            instrumentComb.toBack();
+            marketTable.requestFocus();
+            
+            TraderMain.mdApi.subscribeMarketData(instrumentComb.getValue());
+            break;
+        case ESCAPE:
+            instrumentComb.toBack();
+            //instrumentComb.setVisible(false);
+            marketTable.requestFocus();
+            break;
+        default:
+            
+            break;
+        }
+    }
+    
+    /**
+     * 空开一手
+     */
+    @FXML
+    public void openShort(){
+        
+        String instrumentID = this.instrumentText.getText();
+        if(StringUtils.isBlank(instrumentID)){
+            Alert warning = new Alert(Alert.AlertType.WARNING,"请先选择合约！");
+            warning.showAndWait();
+        }
+        
+        
+    }
+    
+    /**
+     * 更新行情
+     * @param market
+     */
+    public void market(FuturesMarket market){
+        
         for(int i =0; i< marketList.size() ; i++){
             if(marketList.get(i).getInstrumentID().equals(market.getInstrumentID())){
                 
@@ -124,9 +158,9 @@ public class TraderMainController implements Initializable{
                 
             }
         }
-	}
-	
-	/**
+    }
+    
+    /**
      * 订阅合约
      * @param instrument
      */
@@ -140,23 +174,24 @@ public class TraderMainController implements Initializable{
         market.setInstrumentID(instrument);
         marketList.add(market);
     }
-	
-	/**
-	 * 删除合约订阅
-	 * @param instrument
-	 */
-	public void unSubMarketData(String instrument){
-	    for(int i =0; i< marketList.size() ; i++){
+    
+    /**
+     * 删除合约订阅
+     * @param instrument
+     */
+    public void unSubMarketData(String instrument){
+        for(int i =0; i< marketList.size() ; i++){
             if(marketList.get(i).getInstrumentID().equals(instrument)){
                 marketList.remove(i);
+                return;
             }
         }
-	}
-	
-	public void addColumns(){
-	    
-	    TableColumn<FuturesMarket, String> instrumentIDCol = new TableColumn<>("合约");
-	    instrumentIDCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, String>("instrumentID"));
+    }
+    
+    public void addColumns(){
+        
+        TableColumn<FuturesMarket, String> instrumentIDCol = new TableColumn<>("合约");
+        instrumentIDCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, String>("instrumentID"));
         instrumentIDCol.setCellFactory(TextFieldTableCell.forTableColumn());
         marketTable.getColumns().add(instrumentIDCol);
         
@@ -215,6 +250,6 @@ public class TraderMainController implements Initializable{
         TableColumn<FuturesMarket, Double> settlementPriceCol = new TableColumn<>("结算价");
         settlementPriceCol.setCellValueFactory(new PropertyValueFactory<FuturesMarket, Double>("settlementPrice"));
         marketTable.getColumns().add(settlementPriceCol);
-	}
+    }
 
 }
